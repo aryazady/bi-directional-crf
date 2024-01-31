@@ -13,7 +13,7 @@ def __eval_model(model, device, dataloader, desc):
     with torch.no_grad():
         # eval
         losses, nums = zip(*[
-            (model.loss(xb.to(device), yb.to(device)), len(xb))
+            (model.loss(xb.to(device), yb.to(device)).item(), len(xb))
             for xb, yb in tqdm(dataloader, desc=desc)])
         return np.sum(np.multiply(losses, nums)) / np.sum(nums)
 

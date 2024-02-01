@@ -21,6 +21,10 @@ def build_model(args, processor, load=True, verbose=False):
     # weights
     model_path = model_filepath(args.model_dir)
     if exists(model_path) and load:
+        if torch.cuda.is_available():
+            state_dict = torch.load(model_path)
+        else:
+            state_dict = torch.load(model_path, map_location=torch.device('cpu'))
         state_dict = torch.load(model_path)
         model.load_state_dict(state_dict)
         if verbose:

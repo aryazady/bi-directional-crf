@@ -25,7 +25,6 @@ def build_model(args, processor, load=True, verbose=False):
             state_dict = torch.load(model_path)
         else:
             state_dict = torch.load(model_path, map_location=torch.device('cpu'))
-        state_dict = torch.load(model_path)
         model.load_state_dict(state_dict)
         if verbose:
             print("load model weights from {}".format(model_path))

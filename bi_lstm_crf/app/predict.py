@@ -29,11 +29,19 @@ class WordsTagger:
             raise ValueError("sentences must be a list of sentence")
 
         try:
-            sent_tensor = np.asarray([self.preprocessor.sent_to_vector(s) for s in sentences])
-            sent_tensor = torch.from_numpy(sent_tensor).to(self.device)
-            with torch.no_grad():
-                _, tags = self.model(sent_tensor)
-            tags = self.preprocessor.decode_tags(tags)
+            all_tags = []
+            sent_vecs = [self.preprocessor.sent_to_vector(s) for s in sentences]
+            for sent in sent_vecs:
+              sent_tensor = torch.from_numpy(np.asarray([sent])).to(self.device)
+              with torch.no_grad():
+                  _, tags = self.model(sent_tensor)
+              tags = self.preprocessor.decode_tags(tags)
+              all_tags.append(tags[0])
+            # sent_tensor = np.asarray([self.preprocessor.sent_to_vector(s) for s in sentences])
+            # sent_tensor = torch.from_numpy(sent_tensor).to(self.device)
+            # with torch.no_grad():
+            #     _, tags = self.model(sent_tensor)
+            # tags = self.preprocessor.decode_tags(tags)
         except RuntimeError as e:
             print("*** runtime error: {}".format(e))
             raise e

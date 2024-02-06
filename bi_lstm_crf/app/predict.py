@@ -45,7 +45,7 @@ class WordsTagger:
         except RuntimeError as e:
             print("*** runtime error: {}".format(e))
             raise e
-        return tags, self.tokens_from_tags(sentences, tags, begin_tags=begin_tags)
+        return all_tags, self.tokens_from_tags(sentences, tags, begin_tags=begin_tags)
 
     @staticmethod
     def tokens_from_tags(sentences, tags_list, begin_tags):
